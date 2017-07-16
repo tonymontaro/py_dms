@@ -105,4 +105,7 @@ venv
 *.pyc
 staticfiles
 .env
+.idea/
+main/migrations/*
+db.sqlite3
 
