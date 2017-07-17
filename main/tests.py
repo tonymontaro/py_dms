@@ -72,6 +72,7 @@ class ViewTestCase(TestCase):
             format='json'
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertJSONEqual(res.content, {'id': 1, 'name': 'Something_new'})
 
     def test_api_can_delete_role(self):
         """Api can delete role"""
