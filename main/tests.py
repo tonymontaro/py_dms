@@ -54,7 +54,7 @@ class ViewTestCase(TestCase):
 
     def test_api_can_get_a_role(self):
         """Api can get a role"""
-        role = Role.objects.get(id=1)
+        role = Role.objects.first()
         response = self.client.get(
             '/roles/',
             kwargs={'pk': role.id},
@@ -65,14 +65,14 @@ class ViewTestCase(TestCase):
 
     def test_api_can_update_role(self):
         """"Api can update role"""
-        role = Role.objects.get(id=1)
+        role = Role.objects.first()
         res = self.client.put(
             reverse('role_details', kwargs={'pk': role.id}),
             {'name': 'Something_new'},
             format='json'
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(res.content, {'id': 1, 'name': 'Something_new'})
+        self.assertJSONEqual(res.content, {'id': role.id, 'name': 'Something_new'})
 
     def test_api_can_delete_role(self):
         """Api can delete role"""
