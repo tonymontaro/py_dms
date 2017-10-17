@@ -85,16 +85,30 @@ def get_env_variable(var_name):
         return os.environ[var_name]
     except KeyError:
         raise ImproperlyConfigured("Set the {} environment variable".format(var_name))
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': get_env_variable('DATABASE_NAME'),
-        'USER': get_env_variable('DATABASE_USER'),
-        'PASSWORD': get_env_variable('DATABASE_PASSWORD'),
-        'HOST': '',
-        'PORT': '',
+
+
+if 'TRAVIS' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'mydb',
+            'USER': 'postgres',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': get_env_variable('DATABASE_NAME'),
+            'USER': get_env_variable('DATABASE_USER'),
+            'PASSWORD': get_env_variable('DATABASE_PASSWORD'),
+            'HOST': get_env_variable('DATABASE_HOST'),
+            'PORT': '5432'
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
