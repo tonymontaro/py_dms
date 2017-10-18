@@ -37,7 +37,7 @@ class ViewTestCase(TestCase):
 
         self.role_data = {'name': 'reviewer'}
         self.response = self.client.post(
-            reverse('role_create'),
+            reverse('role_list_create'),
             self.role_data,
             format='json'
         )
@@ -49,7 +49,7 @@ class ViewTestCase(TestCase):
     def test_authorization_is_enforced(self):
         """Authorization is enforced"""
         new_client = APIClient()
-        res = new_client.post('/roles/new/', {'name': 'loafers'}, format='json')
+        res = new_client.post('/roles', {'name': 'loafers'}, format='json')
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_api_can_get_a_role(self):
