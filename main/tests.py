@@ -1,11 +1,9 @@
 from django.test import TestCase
-from .models import Role
+from .models import Role, User
 #
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.urlresolvers import reverse
-#
-from django.contrib.auth.models import User
 
 
 # Create your tests here.
@@ -30,7 +28,7 @@ class ViewTestCase(TestCase):
     """Test suite for the api views"""
 
     def setUp(self):
-        user = User.objects.create(username='nerd')
+        User.objects.create(username='nerd')
         admin_user = User.objects.create_superuser(username='boss', email='boss@g.com', password='password')
         self.client = APIClient()
         self.client.force_authenticate(user=admin_user)
