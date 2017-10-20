@@ -6,6 +6,7 @@ from rest_framework import status
 from django.core.urlresolvers import reverse
 
 import json
+from django.core.management import call_command
 
 
 class ViewTestCase(TestCase):
@@ -54,7 +55,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(json.loads(res.content)['name'][0], 'role with this name already exists.')
 
-    def test_03_api_can_get_a_role(self):
+    def test_04_api_can_get_a_role(self):
         """Api can get a role"""
         response = self.client.get(
             '/roles/',
@@ -64,7 +65,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, Role.objects.get(name='admin'))
 
-    def test_04_api_can_update_role(self):
+    def test_05_api_can_update_role(self):
         """"Api can update role"""
         res = self.client.put(
             reverse('role_details', kwargs={'pk': 2}),
@@ -74,7 +75,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(res.content, {'id': 2, 'name': 'new_role'})
 
-    def test_05_api_can_delete_role(self):
+    def test_06_api_can_delete_role(self):
         """Api can delete role"""
         response = self.client.delete(
             reverse('role_details', kwargs={'pk': 2}),
@@ -85,4 +86,4 @@ class ViewTestCase(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        pass
+        call_command('flush', interactive=False)

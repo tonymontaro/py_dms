@@ -6,7 +6,8 @@ from .helpers import paginate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .permissions import IsProfileOwnerOrAdmin
+from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin
+from rest_framework.authtoken.models import Token
 
 
 def index(req):
@@ -29,7 +30,7 @@ class RoleDetailsView(generics.RetrieveUpdateDestroyAPIView):
     """Handles the http GET, PUT and DELETE requests"""
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
-    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    permission_classes = (permissions.IsAuthenticated, IsAppAdmin)
 
 
 # Users
@@ -50,7 +51,10 @@ class UserList(APIView):
         serializer = UserSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            data = serializer.data
+            token = Token.objects.create(user=User.objects.get(username=req.data['username']))
+            data['token'] = token.key
+            return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
