@@ -1,6 +1,6 @@
 from django.test import TestCase
-from .models import Role, User
-#
+from main.models import Role, User
+
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.urlresolvers import reverse
@@ -48,7 +48,7 @@ class ViewTestCase(TestCase):
         """Authorization is enforced"""
         new_client = APIClient()
         res = new_client.post('/roles', {'name': 'loafers'}, format='json')
-        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_role(self):
         """Api can get a role"""

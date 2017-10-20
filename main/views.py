@@ -6,6 +6,7 @@ from .helpers import paginate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .permissions import IsProfileOwnerOrAdmin
 
 
 def index(req):
@@ -57,4 +58,4 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """Retrieve a user"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    permission_classes = (permissions.IsAuthenticated, IsProfileOwnerOrAdmin)
