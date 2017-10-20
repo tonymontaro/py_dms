@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Role
-from django.contrib.auth.models import User
+from .models import Role, User
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -12,4 +11,23 @@ class RoleSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', 'username', 'email', 'full_name', 'password', 'about', 'role_id')
+        extra_kwargs = {
+            'password': {'write_only': True, 'required': True},
+            'id': {'read_only': True},
+            'email': {'required': True}
+        }
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+        return instance

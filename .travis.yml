@@ -20,4 +20,4 @@ before_script:
   - python manage.py makemigrations && python manage.py migrate
 
 script:
-  - python manage.py test -v 2
+  - python manage.py test -v 2 main/test
