@@ -16,3 +16,9 @@ class IsAppAdmin(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         admin = Role.objects.get(name='admin')
         return request.user.role_id == admin
+
+
+# class IsDocumentOwner(permissions.BasePermission):
+#     """Allow only the document owner"""
+#     def has_object_permission(self, request, view, obj):
+

@@ -14,8 +14,8 @@ class ViewTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        admin = Role.objects.create(name='admin')
-        regular = Role.objects.create(name='regular')
+        admin = Role.objects.get(name='admin')
+        regular = Role.objects.get(name='regular')
 
         cls.admin_user = User.objects.create_superuser(
             username='admin-user',
