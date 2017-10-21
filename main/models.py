@@ -43,5 +43,5 @@ class Document(models.Model):
         }
 
     @property
-    def author_id(self):
+    def author_identity(self):
         return self.author.id

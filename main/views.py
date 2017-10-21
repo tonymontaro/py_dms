@@ -6,7 +6,7 @@ from .helpers import paginate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin
+from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin, IsDocumentOwner
 from rest_framework.authtoken.models import Token
 
 
@@ -70,7 +70,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 # Documents
 class DocumentList(APIView):
     """List Documents or create a new Document"""
-
     def get(self, req, format=None):
         total = Document.objects.count()
         params = req.query_params
@@ -94,7 +93,14 @@ class DocumentList(APIView):
             self.permission_classes = [permissions.IsAuthenticated]
         return super(self.__class__, self).get_permissions()
 
+
 class DocumentDetail(generics.RetrieveUpdateDestroyAPIView):
     """Retrieve, Update or Delete a Document"""
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            self.permission_classes = [permissions.IsAuthenticated,
+                                       IsDocumentOwner]
+        return super(self.__class__, self).get_permissions()

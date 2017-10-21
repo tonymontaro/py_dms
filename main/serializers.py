@@ -37,9 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class DocumentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField()
-    author_id = serializers.ReadOnlyField()
+    author_id = serializers.ReadOnlyField(source='author_identity')
     class Meta:
         model = Document
         fields = ('id', 'title', 'content', 'access', 'author_id', 'user',
                   'created_at', 'updated_at')
-        depth = 1
