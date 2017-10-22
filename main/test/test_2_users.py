@@ -23,9 +23,13 @@ class ViewTestCase(TestCase):
             password='password',
             role_id=admin,
         )
-        cls.regular_user = User(username='reg-user', email='boss@g.com', role_id=regular)
+        cls.regular_user = User(
+            username='reg-user',
+            email='boss@g.com',
+            role_id=regular)
         cls.regular_user.set_password('password')
         cls.regular_user.save()
+        print('\n ==== Start User Tests ====')
 
     def setUp(self):
         self.client = APIClient()
@@ -45,7 +49,8 @@ class ViewTestCase(TestCase):
         """Api can create a user"""
         res = self.client.post(
             reverse('user_list_create'),
-            {'username': 'user_one', 'email': 'aa@ga.co', 'password': 'password'},
+            {'username': 'user_one', 'email': 'aa@ga.co',
+             'password': 'password'},
             format='json',
         )
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -71,28 +76,31 @@ class ViewTestCase(TestCase):
             format='json'
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, Role.objects.get(pk=1))
+        self.assertContains(response, User.objects.get(pk=1))
 
     def test_13_api_can_update_user(self):
         res = self.client.put(
             '/users/2',
-            {'username': 'new_name', 'email': 'aa@ga.co', 'password': 'password'},
+            {'username': 'new_name', 'email': 'aa@ga.co',
+             'password': 'password'},
             format='json'
         )
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         assert json.loads(res.content)['username'] == 'new_name'
 
     def test_14_authorization_is_enforced(self):
-        new_user = User.objects.create(username='nice-guy', password='password')
+        new_user = User.objects.create(username='nice-guy',
+                                       password='password')
         self.client.force_authenticate(user=new_user)
         res = self.client.put(
             '/users/2',
-            {'username': 'another_name', 'email': 'aa@ga.co', 'password': 'password'},
+            {'username': 'another_name', 'email': 'aa@ga.co',
+             'password': 'password'},
             format='json'
         )
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_05_api_can_delete_user(self):
+    def test_15_api_can_delete_user(self):
         self.client.force_authenticate(user=self.regular_user)
         response = self.client.delete(
             '/users/2',

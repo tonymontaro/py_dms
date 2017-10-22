@@ -29,6 +29,7 @@ class ViewTestCase(TestCase):
             password='password',
             role_id=regular
         )
+        print('\n ==== Start Role Tests ====')
 
     def setUp(self):
         self.client = APIClient()
@@ -53,7 +54,8 @@ class ViewTestCase(TestCase):
     def test_03_should_fail_if_role_exists(self):
         res = self.client.post('/roles', {'name': 'regular'}, format='json')
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(json.loads(res.content)['name'][0], 'role with this name already exists.')
+        self.assertEqual(json.loads(res.content)['name'][0],
+                         'role with this name already exists.')
 
     def test_04_api_can_get_a_role(self):
         """Api can get a role"""
@@ -87,3 +89,4 @@ class ViewTestCase(TestCase):
     @classmethod
     def tearDownClass(cls):
         call_command('flush', interactive=False)
+
