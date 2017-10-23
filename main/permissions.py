@@ -13,7 +13,7 @@ class IsProfileOwnerOrAdmin(permissions.BasePermission):
 
 class IsAppAdmin(permissions.BasePermission):
     """Allow only the admin"""
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         admin = Role.objects.get(name='admin')
         return request.user.role_id == admin
 

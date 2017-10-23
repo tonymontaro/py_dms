@@ -8,8 +8,6 @@ from django.core.urlresolvers import reverse
 import json
 from django.core.management import call_command
 
-import time
-
 
 class ViewTestCase(SimpleTestCase):
     """Test suite for the api views"""
@@ -37,7 +35,7 @@ class ViewTestCase(SimpleTestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.admin_user)
 
-    def test_16_api_can_create_a_user(self):
+    def test_16_api_can_create_a_document(self):
         """Api can create a document"""
         res = self.client.post(
             reverse('document_list_create'),
@@ -47,7 +45,7 @@ class ViewTestCase(SimpleTestCase):
         data = json.loads(res.content)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         self.assertEqual(data['title'], 'test title')
-        for key in ['id', 'user', 'content', 'access', 'created_at']:
+        for key in ['id', 'user', 'content', 'access', 'createdAt']:
             assert key in data
 
     def test_17_api_can_get_documents(self):
@@ -64,11 +62,11 @@ class ViewTestCase(SimpleTestCase):
         res = self.client.get('/documents?limit=1')
         data = json.loads(res.content)
         assert len(data['rows']) == 1
-        assert data['rows'][0]['id'] == 1
+        assert data['rows'][0]['id'] == 2
 
     def test_19_api_can_offset_the_number_of_documents(self):
         res = self.client.get('/documents?offset=1')
-        assert json.loads(res.content)['rows'][0]['id'] == 2
+        assert json.loads(res.content)['rows'][0]['id'] == 1
 
     def test_20_api_can_get_a_document(self):
         res = self.client.get(
