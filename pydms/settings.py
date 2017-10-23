@@ -109,6 +109,9 @@ else:
             'PORT': '5432'
         }
     }
+    """
+    postgres://iaosxeirwvvawg:978d60a9f2eb5666d9ec1f98012029cfa9390bbebc34d08eb3be413915af70cb@ec2-107-20-255-96.compute-1.amazonaws.com:5432/dctq6fq7vnm08u
+    """
 
 AUTH_PASSWORD_VALIDATORS = [
     {
