@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/?$',
         views.UserDetail.as_view(),
         name='user_details'),
-    url(r'^login/?$', token_views.obtain_auth_token, name='login'),
+    url(r'^users/login/?$', token_views.obtain_auth_token, name='login'),
     url(r'^documents/?$',
         views.DocumentList.as_view(),
         name='document_list_create'),

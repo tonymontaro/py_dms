@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin, IsDocumentOwner
 from rest_framework.authtoken.models import Token
+from django.db.models import Q
 
 
 def index(req):
@@ -75,8 +76,18 @@ class DocumentList(APIView):
         params = req.query_params
         limit = int(params.get('limit', 20))
         offset = int(params.get('offset', 0))
+        search = params.get('q', '')
 
-        documents = Document.objects.all()[offset:offset + limit]
+        if not req.user.is_authenticated:
+            documents = Document.objects.filter(access='public')
+        elif req.user.role_id == Role.objects.get(name='admin'):
+            documents = Document.objects.all()
+        else:
+            documents = Document.objects.filter(
+                Q(access='public') | Q(author_id=req.user.id)
+            )
+        documents = documents.filter(title__contains=search)[
+                    offset:offset + limit]
         serializer = DocumentSerializer(documents, many=True)
         meta_data = paginate(total, limit, offset)
         return Response({'rows': serializer.data, 'meta_data': meta_data})

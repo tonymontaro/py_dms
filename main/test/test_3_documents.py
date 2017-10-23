@@ -25,7 +25,10 @@ class ViewTestCase(SimpleTestCase):
             password='password',
             role_id=admin,
         )
-        cls.regular_user = User(username='reg-user', email='boss@g.com', role_id=regular)
+        cls.regular_user = User(
+            username='reg-user',
+            email='boss@g.com',
+            role_id=regular)
         cls.regular_user.set_password('password')
         cls.regular_user.save()
         print('\n ==== Start Document Tests ====')
@@ -85,7 +88,8 @@ class ViewTestCase(SimpleTestCase):
         assert json.loads(res.content)['title'] == 'new_name'
 
     def test_22_authorization_is_enforced(self):
-        new_user = User.objects.create(username='nice-guy', password='password')
+        new_user = User.objects.create(username='nice-guy',
+                                       password='password')
         self.client.force_authenticate(user=new_user)
         res = self.client.put(
             '/documents/2',
