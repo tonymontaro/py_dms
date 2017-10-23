@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'rest_framework',
-    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -109,6 +109,9 @@ else:
             'PORT': '5432'
         }
     }
+    """
+    postgres://iaosxeirwvvawg:978d60a9f2eb5666d9ec1f98012029cfa9390bbebc34d08eb3be413915af70cb@ec2-107-20-255-96.compute-1.amazonaws.com:5432/dctq6fq7vnm08u
+    """
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -165,7 +168,17 @@ AUTH_USER_MODEL = 'main.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=14),
+    'JWT_PAYLOAD_HANDLER':
+        'main.utilities.jwt_payload_handler',
 }

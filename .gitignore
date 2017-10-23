@@ -108,6 +108,5 @@ venv
 staticfiles
 .env
 .idea/
-main/migrations/*
 db.sqlite3
 
