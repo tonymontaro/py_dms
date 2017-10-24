@@ -38,7 +38,7 @@ class UserList(APIView):
     def get(self, req, format=None):
         limit, offset, search = get_query_vars(req.query_params)
 
-        users = User.objects.all().filter(username__contains=search)
+        users = User.objects.all().filter(username__icontains=search)
         total = users.count()
         serializer = UserSerializer(users[offset:offset + limit], many=True)
         meta_data = paginate(total, limit, offset)
@@ -86,7 +86,7 @@ class DocumentList(APIView):
             documents = Document.objects.filter(
                 Q(access='public') | Q(author_id=req.user.id)
             )
-        documents = documents.filter(title__contains=search).order_by(
+        documents = documents.filter(title__icontains=search).order_by(
             '-updated_at')
         total = documents.count()
 
@@ -128,7 +128,7 @@ class UserDocuments(APIView):
         limit, offset, search = get_query_vars(req.query_params)
 
         documents = Document.objects.filter(author_id=pk)
-        documents = documents.filter(title__contains=search)
+        documents = documents.filter(title__icontains=search)
         total = documents.count()
 
         serializer = DocumentSerializer(

@@ -39,7 +39,7 @@ class Document(models.Model):
     def user(self):
         return {
             'username': self.author.username,
-            'role_id': self.author.role_id.id
+            'role_id': self.author.role_id.id if self.author.role_id else 2
         }
 
     @property
