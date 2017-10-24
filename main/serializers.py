@@ -29,10 +29,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
+        password = validated_data.get('password', None)
+        if password:
+            validated_data.pop('password')
+            instance.set_password(password)
         for key, value in validated_data.items():
             setattr(instance, key, value)
-        instance.set_password(
-            validated_data.get('password', instance.password))
+
         instance.save()
         return instance
 
