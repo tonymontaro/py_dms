@@ -3,12 +3,14 @@ from .models import Role, User, Document
 
 
 class RoleSerializer(serializers.ModelSerializer):
+    """Role Serializer"""
     class Meta:
         model = Role
         fields = ('id', 'name',)
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """User Serializer"""
     class Meta:
         model = User
         fields = ('id', 'username', 'email',
@@ -36,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
+    """Document Serializer"""
     user = serializers.ReadOnlyField()
     author_id = serializers.ReadOnlyField(source='author_identity')
     class Meta:

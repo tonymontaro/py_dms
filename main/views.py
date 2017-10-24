@@ -12,13 +12,6 @@ from django.db.models import Q
 from django.shortcuts import render
 
 
-def index(req):
-    return render(req, 'index.html')
-
-def documentation(req):
-    return render(req, 'api.html')
-
-
 # Roles
 class RoleList(generics.ListCreateAPIView):
     """List all ROLES or create a new Role"""
@@ -33,7 +26,7 @@ class RoleList(generics.ListCreateAPIView):
 
 
 class RoleDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    """Handles the http GET, PUT and DELETE requests"""
+    """Retrieve, Update or Delete a Role"""
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
     permission_classes = (permissions.IsAuthenticated, IsAppAdmin)
@@ -41,11 +34,11 @@ class RoleDetailsView(generics.RetrieveUpdateDestroyAPIView):
 
 # Users
 class UserList(APIView):
-    """List all users or create a new User"""
+    """List users or create a new User"""
     def get(self, req, format=None):
         limit, offset, search = get_query_vars(req.query_params)
 
-        users = User.objects.all().filter(username__contains=search)
+        users = User.objects.all().filter(username__icontains=search)
         total = users.count()
         serializer = UserSerializer(users[offset:offset + limit], many=True)
         meta_data = paginate(total, limit, offset)
@@ -93,7 +86,7 @@ class DocumentList(APIView):
             documents = Document.objects.filter(
                 Q(access='public') | Q(author_id=req.user.id)
             )
-        documents = documents.filter(title__contains=search).order_by(
+        documents = documents.filter(title__icontains=search).order_by(
             '-updated_at')
         total = documents.count()
 
@@ -135,10 +128,18 @@ class UserDocuments(APIView):
         limit, offset, search = get_query_vars(req.query_params)
 
         documents = Document.objects.filter(author_id=pk)
-        documents = documents.filter(title__contains=search)
+        documents = documents.filter(title__icontains=search)
         total = documents.count()
 
         serializer = DocumentSerializer(
             documents[offset:offset + limit], many=True)
         meta_data = paginate(total, limit, offset)
         return Response(serializer.data)
+
+
+def index(req):
+    return render(req, 'index.html')
+
+
+def documentation(req):
+    return render(req, 'api.html')

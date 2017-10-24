@@ -31,15 +31,15 @@ The app has three levels of authorization;
     - Delete created roles aside form the admin role
 
 ## Technologies
-The application was developed with [Django](https://www.djangoproject.com/), [Django REST framework](http://www.django-rest-framework.org/) was used for routing and [Postgres](http://postgresql.com/) was used for database management.
+The application was developed with [Django](https://www.djangoproject.com/) and [Django REST framework](http://www.django-rest-framework.org/). [Postgres](http://postgresql.com/) was used for database management.
  [ReactJS](https://reactjs.org/) with the Redux architecture was used to build the client side of the application
 
 ## Installation
 Follow the steps below to setup a local development environment. First ensure you have [Postgresql](https://www.postgresql.org/)  and Python installed.
 
 ## How to Install
-1. Clone the repo and cd into the folder
-2. create a virtual env and activate it: `python3 -m venv venv && source venv/bin/activate`
+1. Clone the repo and `cd` into the root folder
+2. Create a virtual env and activate it: `python3 -m venv venv && source venv/bin/activate`
 3. Install dependencies: `pip install -r requirements.txt` (on mac, if you need to install postgres, run `brew install postgresgl`)
 4. Export the following environment variables used by the application(e.g `export DATABASE_HOST='localhost'`):
     - DATABASE_NAME
@@ -49,7 +49,7 @@ Follow the steps below to setup a local development environment. First ensure yo
 
     refer to [this](https://stackoverflow.com/questions/9554087/setting-an-environment-variable-in-virtualenv) if you would like to load the variables automatically.
 
-5. migrate the database: `python manage.py makemigrations && python manage.py migrate`
+5. migrate the database: `python manage.py migrate`
 6. Start the app: `python manage.py runserver`
 
 
