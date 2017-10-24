@@ -53,10 +53,10 @@ export default {
       .setValue('Input[name=password]', 'alpine')
       .click('button')
       .waitForElementVisible('input#search')
-      .setValue('input#search', 'Doc-Mage Welcome Message')
+      .setValue('input#search', 'PyDMS Welcome Message')
       .keys(browser.Keys.ENTER)
       .waitForElementVisible('.toast')
-      .assert.containsText('span.card-title', 'Doc-Mage Welcome Message')
+      .assert.containsText('span.card-title', 'PyDMS Welcome Message')
       .end(),
 
   'Edit document': (browser) => {

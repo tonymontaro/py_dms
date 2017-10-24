@@ -59,16 +59,19 @@ class ViewTestCase(SimpleTestCase):
         assert len(json.loads(res.content)['rows']) > 1
 
     def test_18_api_can_limit_the_number_of_documents(self):
+        """Api can limit the number of documents returned"""
         res = self.client.get('/documents?limit=1')
         data = json.loads(res.content)
         assert len(data['rows']) == 1
         assert data['rows'][0]['id'] == 2
 
     def test_19_api_can_offset_the_number_of_documents(self):
+        """Api supports offsets for documents"""
         res = self.client.get('/documents?offset=1')
         assert json.loads(res.content)['rows'][0]['id'] == 1
 
     def test_20_api_can_get_a_document(self):
+        """Api can get a particular document"""
         res = self.client.get(
             '/documents/1',
             format='json'
@@ -77,6 +80,7 @@ class ViewTestCase(SimpleTestCase):
         assert json.loads(res.content)['id'] == 1
 
     def test_21_api_can_update_document(self):
+        """Api can update a particular document"""
         res = self.client.put(
             '/documents/2',
             {'title': 'new_name'},
@@ -86,6 +90,7 @@ class ViewTestCase(SimpleTestCase):
         assert json.loads(res.content)['title'] == 'new_name'
 
     def test_22_authorization_is_enforced(self):
+        """Authorization is enforced"""
         new_user = User.objects.create(username='nice-guy',
                                        password='password')
         self.client.force_authenticate(user=new_user)
@@ -97,6 +102,7 @@ class ViewTestCase(SimpleTestCase):
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_23_api_can_delete_user(self):
+        """Api can delete a particular document"""
         response = self.client.delete(
             '/documents/2',
             format='json',

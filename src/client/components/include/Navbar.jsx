@@ -17,7 +17,7 @@ const Navbar = ({
           <Link
             to=""
             onClick={getDocuments}
-            className="brand-logo hide-on-med-and-down">DocMage</Link>
+            className="brand-logo hide-on-med-and-down">PyDMS</Link>
 
           <ul className="right">
             <li><Link to="/1">About</Link></li>

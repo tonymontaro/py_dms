@@ -2,6 +2,7 @@ import math
 
 
 def paginate(count, limit, offset):
+    """Returns pagination meta data"""
     page = math.floor(offset / limit) + 1
     page_count = math.ceil(count / limit)
     page_size = limit if (count - offset) > limit else (count - offset)
@@ -13,6 +14,7 @@ def paginate(count, limit, offset):
 
 
 def get_query_vars(params):
+    """Gets database query variables"""
     limit = int(params.get('limit', 20))
     offset = int(params.get('offset', 0))
     search = params.get('q', '')

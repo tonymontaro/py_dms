@@ -57,19 +57,23 @@ class ViewTestCase(TestCase):
         self.assertEqual(json.loads(res.content)['username'], 'user_one')
 
     def test_09_api_can_get_users(self):
+        """Api can get a list of users"""
         res = self.client.get(reverse('user_list_create'))
         assert len(json.loads(res.content)['rows']) > 1
 
     def test_10_api_can_limit_the_number_of_users(self):
+        """Api can limit the number of users returned"""
         res = self.client.get('/users?limit=1')
         assert len(json.loads(res.content)['rows']) == 1
         assert json.loads(res.content)['rows'][0]['username'] == 'admin-user'
 
     def test_11_api_can_offset_the_number_of_users(self):
+        """Api supports offsets for users"""
         res = self.client.get('/users?offset=1')
         assert json.loads(res.content)['rows'][0]['username'] == 'reg-user'
 
     def test_12_api_can_get_a_user(self):
+        """Api can get a particular user"""
         response = self.client.get(
             '/users',
             kwargs={'pk': 1},
@@ -79,6 +83,7 @@ class ViewTestCase(TestCase):
         self.assertContains(response, User.objects.get(pk=1))
 
     def test_13_api_can_update_user(self):
+        """Api can update a particular user"""
         res = self.client.put(
             '/users/2',
             {'username': 'new_name', 'email': 'aa@ga.co',
@@ -89,6 +94,7 @@ class ViewTestCase(TestCase):
         assert json.loads(res.content)['username'] == 'new_name'
 
     def test_14_authorization_is_enforced(self):
+        """Authorization is enforced"""
         new_user = User.objects.create(username='nice-guy',
                                        password='password')
         self.client.force_authenticate(user=new_user)
@@ -101,6 +107,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_15_api_can_delete_user(self):
+        """Api can delete a particular user"""
         self.client.force_authenticate(user=self.regular_user)
         response = self.client.delete(
             '/users/2',

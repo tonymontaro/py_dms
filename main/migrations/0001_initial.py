@@ -30,12 +30,15 @@ def forward_func(apps, schema_editor):
 
     document = apps.get_model("main", "Document")
     document.objects.using(db_alias).bulk_create([
-        document(title="Doc-Mage Welcome Message",
-                 content="""Hello and welcome, if this is the first time running the app,
-                 you can login with the following default admin settings:
-                 <b>username:</b> admin
-                 <b>password:</b> alpine
-                 Please login and change the default root password.""")
+        document(title="PyDMS Welcome Message",
+                 content="""<p>Hello and welcome,<br />PyDMS is an application 
+                 that can help you manage documents in an organized way.<br />
+                 Need to share your idea? create a public document and share 
+                 the url with friends.<br />Need to preserve a precious 
+                 memory? Simply create a private document.<br /><br />
+                 If this is the first time running the app, please signup to 
+                 get started!</p>""",
+                 author_id=1)
     ])
 
 

@@ -10,7 +10,14 @@ import { endAjaxCall } from '../actions/ajaxStatusActions';
 export function handleError(error, dispatch) {
   if (dispatch) dispatch(endAjaxCall());
   if (error.response) {
-    return Materialize.toast(error.response.data.message, 2000);
+    const data = error.response.data;
+    if (data.nonFieldErrors) {
+      return Materialize.toast(data.nonFieldErrors, 2000);
+    } else if (data.detail) {
+      return Materialize.toast(data.detail, 2000);
+    }
+    Object.keys(data).forEach(key => Materialize.toast(data[key], 2000));
+    return;
   }
   return Materialize.toast('Something went wrong', 2000);
 }
