@@ -26,4 +26,4 @@ export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
 export const BEGIN_AJAX_CALL = 'BEGIN_AJAX_CALL';
 export const END_AJAX_CALL = 'END_AJAX_CALL';
 
-export const URL = '';
+export const URL = 'http://localhost:8000';

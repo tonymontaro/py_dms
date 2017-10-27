@@ -6,37 +6,31 @@
   "scripts": {
     "start": "babel-node server.js",
     "build:client": "webpack --config webpack.config.prod.js",
-    "test:client": "NODE_ENV=test nyc mocha client/test/testSetup.js client/test/**/*",
-    "test:client:watch": "mocha client/test/testSetup.js client/test/**/*.js --watch",
+    "test:client":
+      "NODE_ENV=test nyc mocha client/test/testSetup.js client/test/**/*",
+    "test:client:watch":
+      "mocha client/test/testSetup.js client/test/**/*.js --watch",
     "e2e-setup": "selenium-standalone install",
     "e2e-test": "nightwatch"
   },
   "nyc": {
-    "require": [
-      "babel-register"
-    ],
-    "reporter": [
-      "lcov",
-      "text",
-      "html"
-    ],
+    "require": ["babel-register"],
+    "reporter": ["lcov", "text", "html"],
     "sourceMap": false,
     "instrument": false,
-    "exclude": [
-      "client/test"
-    ]
+    "exclude": ["client/test"]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andela-angene/document-management-system.git"
+    "url": "git+https://github.com/andela-angene/py_dms.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/andela-angene/document-management-system/issues"
+    "url": "https://github.com/andela-angene/py_dms/issues"
   },
-  "homepage": "https://github.com/andela-angene/document-management-system#readme",
+  "homepage": "https://github.com/andela-angene/py_dms#readme",
   "dependencies": {
     "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
