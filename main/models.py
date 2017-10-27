@@ -22,6 +22,15 @@ class User(AbstractUser):
     full_name = models.TextField(max_length=100, blank=True)
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255, blank=False, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
 class Document(models.Model):
     title = models.CharField(max_length=255, blank=False, unique=True)
     content = models.TextField(blank=True)
@@ -32,6 +41,7 @@ class Document(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    category = models.ForeignKey(Category, null=True, related_name='documents')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -41,7 +51,3 @@ class Document(models.Model):
             'username': self.author.username,
             'role_id': self.author.role_id.id if self.author.role_id else 2
         }
-
-    @property
-    def author_identity(self):
-        return self.author.id

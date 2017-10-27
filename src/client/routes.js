@@ -11,12 +11,14 @@ import ManageRoles from './components/roles/ManageRoles';
 import ManageUsers from './components/users/ManageUsers';
 import EnsureUserIsAdmin from './components/access/EnsureUserIsAdmin';
 import EnsureLoggedIn from './components/access/EnsureLoggedIn';
+import About from './components/common/About';
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
     <Route path="login" component={LoginPage} />
     <Route path="signup" component={SignUpPage} />
+    <Route path="about" component={About} />
 
     <Route component={EnsureLoggedIn}>
       <Route path="mydocuments" component={HomePage} />

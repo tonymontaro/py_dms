@@ -28,31 +28,16 @@ def forward_func(apps, schema_editor):
              role_id_id=1)
     ])
 
-    document = apps.get_model("main", "Document")
-    document.objects.using(db_alias).bulk_create([
-        document(title="PyDMS Welcome Message",
-                 content="""<p>Hello and welcome,<br />PyDMS is an application 
-                 that can help you manage documents in an organized way.<br />
-                 Need to share your idea? create a public document and share 
-                 the url with friends.<br />Need to preserve a precious 
-                 memory? Simply create a private document.<br /><br />
-                 If this is the first time running the app, please signup to 
-                 get started!</p>""",
-                 author_id=1)
-    ])
-
 
 def reverse_func(apps, schema_editor):
     # forwards_func() creates two Country instances,
     # so reverse_func() should delete them.
     role = apps.get_model("main", "Role")
     user = apps.get_model("main", "User")
-    document = apps.get_model("main", "Document")
     db_alias = schema_editor.connection.alias
     role.objects.using(db_alias).filter(name="admin").delete()
     role.objects.using(db_alias).filter(name="regular").delete()
     user.objects.using(db_alias).filter(username="admin").delete()
-    document.objects.using(db_alias).filter(title="Doc-Mage Welcome Message").delete()
 
 
 class Migration(migrations.Migration):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Role, User, Document
+from .models import Role, User, Document, Category
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -43,8 +43,25 @@ class UserSerializer(serializers.ModelSerializer):
 class DocumentSerializer(serializers.ModelSerializer):
     """Document Serializer"""
     user = serializers.ReadOnlyField()
-    author_id = serializers.ReadOnlyField(source='author_identity')
+    category = serializers.CharField(source='category.name', required=False)
+    author_id = serializers.IntegerField(source='author.id', read_only=True)
+
     class Meta:
         model = Document
-        fields = ('id', 'title', 'content', 'access', 'author_id', 'user',
-                  'created_at', 'updated_at')
+        fields = (
+            'id', 'title', 'content', 'access', 'author_id', 'user',
+            'category', 'created_at', 'updated_at')
+
+    def create(self, validated_data):
+        if validated_data.get('category', None):
+            validated_data['category'] = Category.objects.get(
+                pk=validated_data['category']['name'])
+        document = Document(**validated_data)
+        document.save()
+        return document
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
