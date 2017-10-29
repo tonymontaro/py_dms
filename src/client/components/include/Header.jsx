@@ -19,7 +19,8 @@ class Header extends React.Component {
 
   getProfile() {
     if (this.props.access.loggedIn) {
-      this.props.getProfile(this.props.access.user.id)
+      this.props
+        .getProfile(this.props.access.user.id)
         .then(() => {
           this.context.router.push('/profile');
         })
@@ -33,20 +34,20 @@ class Header extends React.Component {
   }
 
   getDocuments() {
-    this.props.getDocuments()
-      .then(() => {
-        this.context.router.push('/');
-      });
+    this.props.getDocuments().then(() => {
+      this.context.router.push('/');
+    });
   }
 
   getUserDocuments() {
-    this.props.getUserDocuments(this.props.access.user.id)
+    this.props
+      .getUserDocuments(this.props.access.user.id)
       .then(() => this.context.router.push('/mydocuments'))
       .catch(error => handleError(error));
   }
 
   render() {
-    const { access } = this.props;
+    const { access, categories } = this.props;
     let accessClass;
     let username;
     if (access.loggedIn) {
@@ -66,7 +67,9 @@ class Header extends React.Component {
         accessClass={accessClass}
         getDocuments={this.getDocuments}
         getProfile={this.getProfile}
-        getUserDocuments={this.getUserDocuments} />
+        getUserDocuments={this.getUserDocuments}
+        categories={categories}
+      />
     );
   }
 }
@@ -76,13 +79,16 @@ Header.propTypes = {
   getProfile: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   getUserDocuments: PropTypes.func.isRequired,
-  getDocuments: PropTypes.func.isRequired
+  getDocuments: PropTypes.func.isRequired,
 };
 
 Header.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({ access: state.access }),
-  { logout, getProfile, getDocuments, getUserDocuments })(Header);
-
+export default connect(state => ({ access: state.access, categories: state.categories }), {
+  logout,
+  getProfile,
+  getDocuments,
+  getUserDocuments,
+})(Header);

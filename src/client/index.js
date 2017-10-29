@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { getDocuments } from './actions//documentActions';
 import { getRoles } from './actions/roleActions';
+import { getCategories } from './actions/categoryActions';
 import { clientLogin } from './actions/accessActions';
 import { CLIENT_LOGIN } from './actions/types';
 import configureStore from './store/configureStore';
@@ -18,10 +19,11 @@ if (token) {
 }
 store.dispatch(getDocuments());
 store.dispatch(getRoles());
+store.dispatch(getCategories());
 
 render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
-  </Provider>
-  , document.getElementById('app')
+  </Provider>,
+  document.getElementById('app'),
 );

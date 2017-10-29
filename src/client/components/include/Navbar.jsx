@@ -8,7 +8,15 @@ import { Link } from 'react-router';
  *   username, logout, accessClass, getDocuments, getProfile, getUserDocuments }
  * @returns {Object} jsx object
  */
-const Navbar = ({ username, logout, accessClass, getDocuments, getProfile, getUserDocuments }) => (
+const Navbar = ({
+  username,
+  logout,
+  accessClass,
+  getDocuments,
+  getProfile,
+  getUserDocuments,
+  categories,
+}) => (
   <header className={`navbar-fixed ${accessClass}`}>
     <nav>
       <div className="nav-wrapper container">
@@ -44,6 +52,11 @@ const Navbar = ({ username, logout, accessClass, getDocuments, getProfile, getUs
             <li>
               <Link className="dropdown-button" to="" data-activates="documents-dropdown">
                 Documents<i className="material-icons right">arrow_drop_down</i>
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-button" to="" data-activates="category-dropdown">
+                categories<i className="material-icons right">arrow_drop_down</i>
               </Link>
             </li>
             <li>
@@ -90,6 +103,17 @@ const Navbar = ({ username, logout, accessClass, getDocuments, getProfile, getUs
           </Link>
         </li>
       </ul>
+
+      <ul id="category-dropdown" className="dropdown-content">
+        <li>
+          {categories.map(category => (
+            <Link key={category.id} to="document/new">
+              {category.name}
+            </Link>
+          ))}
+        </li>
+        <li className="divider" />
+      </ul>
     </div>
   </header>
 );
@@ -101,6 +125,7 @@ Navbar.propTypes = {
   getUserDocuments: PropTypes.func.isRequired,
   username: PropTypes.string,
   accessClass: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default Navbar;
