@@ -31,11 +31,12 @@ class ManageDocument extends React.Component {
     const { valid, errors } = validateSaveDocument(this.state);
     if (valid) {
       this.setState({ errors: {} });
-      this.props.saveDocument(this.state)
-      .then(() => {
-        this.context.router.push('/');
-      })
-      .catch(error => handleError(error));
+      this.props
+        .saveDocument(this.state)
+        .then(() => {
+          this.context.router.push('/');
+        })
+        .catch(error => handleError(error));
     } else {
       this.setState({ errors });
     }
@@ -68,23 +69,30 @@ class ManageDocument extends React.Component {
    */
   render() {
     const accessOptions = [
-    { value: 'public', text: 'Public' },
-    { value: 'private', text: 'Private' },
-    { value: 'role', text: 'Role' }];
+      { value: 'public', text: 'Public' },
+      { value: 'private', text: 'Private' },
+      { value: 'role', text: 'Role' },
+    ];
+    const categories = this.props.categories.map(category => ({
+      value: category.name,
+      text: category.name,
+    }));
 
     return (
       <DocumentForm
-      onChange={this.onChange}
-      document={this.state}
-      onSubmit={this.onSubmit}
-      getContent={this.getContent}
-      accessOptions={accessOptions} />
+        onChange={this.onChange}
+        document={this.state}
+        onSubmit={this.onSubmit}
+        getContent={this.getContent}
+        accessOptions={accessOptions}
+        categories={categories}
+      />
     );
   }
 }
 
 ManageDocument.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 /**
@@ -95,7 +103,7 @@ ManageDocument.contextTypes = {
  * @returns {Object} document object
  */
 function mapStateTopProps(state, ownProps) {
-  let currentDocument = { title: '', content: '', access: 'null' };
+  let currentDocument = { title: '', content: '', access: 'null', category: 'null' };
   const documentId = ownProps.params.id;
   if (documentId) {
     state.documents.forEach((document) => {
@@ -104,20 +112,22 @@ function mapStateTopProps(state, ownProps) {
           title: document.title,
           content: document.content,
           access: document.access,
-          updateId: document.id
+          updateId: document.id,
+          category: document.category ? document.category : 'null',
         };
       }
     });
   }
 
   return {
-    document: currentDocument
+    document: currentDocument,
+    categories: state.categories,
   };
 }
 
 ManageDocument.propTypes = {
   document: PropTypes.object.isRequired,
-  saveDocument: PropTypes.func.isRequired
+  saveDocument: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateTopProps, { saveDocument })(ManageDocument);

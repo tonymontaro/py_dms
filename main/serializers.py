@@ -52,10 +52,26 @@ class DocumentSerializer(serializers.ModelSerializer):
             'id', 'title', 'content', 'access', 'author_id', 'user',
             'category', 'created_at', 'updated_at')
 
+    def update(self, instance, validated_data):
+        if validated_data.get('category', None):
+            try:
+                validated_data['category'] = Category.objects.get(
+                    name=validated_data['category']['name'])
+            except:
+                validated_data.pop('category')
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.save()
+        return instance
+
     def create(self, validated_data):
         if validated_data.get('category', None):
-            validated_data['category'] = Category.objects.get(
-                pk=validated_data['category']['name'])
+            try:
+                validated_data['category'] = Category.objects.get(
+                    name=validated_data['category']['name'])
+            except:
+                validated_data.pop('category')
         document = Document(**validated_data)
         document.save()
         return document

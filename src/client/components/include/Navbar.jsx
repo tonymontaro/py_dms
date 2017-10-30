@@ -29,6 +29,11 @@ const Navbar = ({
           <li>
             <Link to="/about">About</Link>
           </li>
+          <li>
+            <Link className="dropdown-button" to="" data-activates="category-dropdown">
+              categories<i className="material-icons right">arrow_drop_down</i>
+            </Link>
+          </li>
           <span className="notLoggedIn">
             <li>
               <Link id="login" to="login">
@@ -53,11 +58,6 @@ const Navbar = ({
             <li>
               <Link className="dropdown-button" to="" data-activates="documents-dropdown">
                 Documents<i className="material-icons right">arrow_drop_down</i>
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-button" to="" data-activates="category-dropdown">
-                categories<i className="material-icons right">arrow_drop_down</i>
               </Link>
             </li>
             <li>
