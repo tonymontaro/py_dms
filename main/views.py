@@ -108,6 +108,7 @@ class DocumentList(APIView):
     """List Documents or create a new Document"""
     def get(self, req, format=None):
         limit, offset, search = get_query_vars(req.query_params)
+        category = req.query_params.get('cat', None)
 
         # filter documents based on the user's auth level
         if not req.user.is_authenticated:
@@ -118,7 +119,11 @@ class DocumentList(APIView):
             documents = Document.objects.filter(
                 Q(access='public') | Q(author_id=req.user.id)
             )
-        documents = documents.filter(title__icontains=search).order_by(
+
+        filter_query = {'title__icontains': search}
+        if category:
+            filter_query['category'] = category
+        documents = documents.filter(**filter_query).order_by(
             '-updated_at')
         total = documents.count()
 

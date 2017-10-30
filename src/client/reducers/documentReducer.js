@@ -31,6 +31,8 @@ export function documents(state = initialState.documents, action) {
   case types.GET_USER_DOCUMENTS_SUCCESS:
     return action.documents;
 
+  case types.GET_CATEGORY_DOCUMENTS_SUCCESS:
+    return action.documents.rows;
 
   default:
     return state;

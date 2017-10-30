@@ -9,25 +9,28 @@ import renderHTML from 'react-render-html';
  * @param {Object} props { document, user, confirmDelete }
  * @returns {Object} jsx object
  */
-const DocumentCard = ({ document, user, confirmDelete }) =>
+const DocumentCard = ({ document, user, confirmDelete }) => (
   <div className="col s12 m4">
     <div className="card">
-      <div className="document-access">{document.access}</div>
+      {document.category && <div className="document-access">{document.category}</div>}
 
-      {(user.id === document.authorId) &&
-      <span>
-        <Link
-          to={`document/${document.id}`}
-          className="btn-floating waves-effect waves-light edit-btn">
-          <i className="material-icons">edit</i>
-        </Link>
-        <a
-          onClick={() => confirmDelete(document)}
-          href="#deleteModal"
-          className="btn-floating waves-effect waves-light delete-btn">
-          <i className="material-icons">delete</i>
-        </a>
-      </span>}
+      {user.id === document.authorId && (
+        <span>
+          <Link
+            to={`document/${document.id}`}
+            className="btn-floating waves-effect waves-light edit-btn"
+          >
+            <i className="material-icons">edit</i>
+          </Link>
+          <a
+            onClick={() => confirmDelete(document)}
+            href="#deleteModal"
+            className="btn-floating waves-effect waves-light delete-btn"
+          >
+            <i className="material-icons">delete</i>
+          </a>
+        </span>
+      )}
 
       <Link to={`/${document.id}`} className="view-document">
         <div className="card-content">
@@ -37,12 +40,13 @@ const DocumentCard = ({ document, user, confirmDelete }) =>
         </div>
       </Link>
     </div>
-  </div>;
+  </div>
+);
 
 DocumentCard.propTypes = {
   document: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  confirmDelete: PropTypes.func.isRequired
+  confirmDelete: PropTypes.func.isRequired,
 };
 
 export default DocumentCard;

@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import truncate from 'html-truncate';
 import { logout } from '../../actions/accessActions';
 import { getProfile } from '../../actions/userActions';
-import { getDocuments, getUserDocuments } from '../../actions/documentActions';
+import {
+  getDocuments,
+  getUserDocuments,
+  getCategoryDocuments,
+} from '../../actions/documentActions';
 import Navbar from './Navbar';
 import { handleError } from '../../utilities/errorHandler';
 
@@ -15,6 +19,7 @@ class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.getDocuments = this.getDocuments.bind(this);
     this.getUserDocuments = this.getUserDocuments.bind(this);
+    this.getCategoryDocuments = this.getCategoryDocuments.bind(this);
   }
 
   getProfile() {
@@ -46,6 +51,13 @@ class Header extends React.Component {
       .catch(error => handleError(error));
   }
 
+  getCategoryDocuments(categoryId) {
+    this.props
+      .getCategoryDocuments(categoryId)
+      .then(() => this.context.router.push('/category-display'))
+      .catch(error => handleError(error));
+  }
+
   render() {
     const { access, categories } = this.props;
     let accessClass;
@@ -69,6 +81,7 @@ class Header extends React.Component {
         getProfile={this.getProfile}
         getUserDocuments={this.getUserDocuments}
         categories={categories}
+        getCategoryDocuments={this.getCategoryDocuments}
       />
     );
   }
@@ -91,4 +104,5 @@ export default connect(state => ({ access: state.access, categories: state.categ
   getProfile,
   getDocuments,
   getUserDocuments,
+  getCategoryDocuments,
 })(Header);

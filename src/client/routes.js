@@ -19,6 +19,7 @@ export default (
     <Route path="login" component={LoginPage} />
     <Route path="signup" component={SignUpPage} />
     <Route path="about" component={About} />
+    <Route path="category-display" component={HomePage} />
 
     <Route component={EnsureLoggedIn}>
       <Route path="mydocuments" component={HomePage} />

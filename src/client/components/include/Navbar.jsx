@@ -16,6 +16,7 @@ const Navbar = ({
   getProfile,
   getUserDocuments,
   categories,
+  getCategoryDocuments,
 }) => (
   <header className={`navbar-fixed ${accessClass}`}>
     <nav>
@@ -107,7 +108,7 @@ const Navbar = ({
       <ul id="category-dropdown" className="dropdown-content">
         <li>
           {categories.map(category => (
-            <Link key={category.id} to="document/new">
+            <Link key={category.id} to="" onClick={() => getCategoryDocuments(category.id)}>
               {category.name}
             </Link>
           ))}
@@ -123,6 +124,7 @@ Navbar.propTypes = {
   getProfile: PropTypes.func.isRequired,
   getDocuments: PropTypes.func.isRequired,
   getUserDocuments: PropTypes.func.isRequired,
+  getCategoryDocuments: PropTypes.func.isRequired,
   username: PropTypes.string,
   accessClass: PropTypes.string.isRequired,
   categories: PropTypes.array.isRequired,

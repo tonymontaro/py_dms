@@ -14,14 +14,15 @@ export function getDocuments(offset = 0, limit = 9) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
-    return axios.get(`${types.URL}/documents?limit=${limit}&offset=${offset}`)
+    return axios
+      .get(`${types.URL}/documents?limit=${limit}&offset=${offset}`)
       .then((res) => {
         dispatch({
           type: types.LOAD_DOCUMENTS_SUCCESS,
           documents: res.data.rows,
           metaData: res.data.metaData,
           offset,
-          query: ''
+          query: '',
         });
       })
       .catch(error => handleError(error, dispatch));
@@ -48,7 +49,7 @@ export function searchDocument(query, offset = 0, limit = 9) {
           searchResult: res.data.rows,
           metaData: res.data.metaData,
           query,
-          offset
+          offset,
         });
       })
       .catch(error => throwError(error, dispatch));
@@ -65,7 +66,8 @@ export function saveDocument(document) {
     return (dispatch) => {
       dispatch(beginAjaxCall());
 
-      return axios.put(`${types.URL}/documents/${document.updateId}`, document)
+      return axios
+        .put(`${types.URL}/documents/${document.updateId}`, document)
         .then((res) => {
           dispatch({ type: types.UPDATE_DOCUMENT_SUCCESS, document: res.data });
         })
@@ -76,7 +78,8 @@ export function saveDocument(document) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
-    return axios.post(`${types.URL}/documents`, document)
+    return axios
+      .post(`${types.URL}/documents`, document)
       .then((res) => {
         dispatch({ type: types.CREATE_DOCUMENT_SUCCESS, document: res.data });
       })
@@ -94,7 +97,8 @@ export function deleteDocument(id) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
-    return axios.delete(`${types.URL}/documents/${id}`)
+    return axios
+      .delete(`${types.URL}/documents/${id}`)
       .then(() => {
         dispatch({
           type: types.DELETE_DOCUMENT_SUCCESS,
@@ -114,11 +118,12 @@ export function getDocument(id) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
-    return axios.get(`${types.URL}/documents/${id}`)
+    return axios
+      .get(`${types.URL}/documents/${id}`)
       .then((res) => {
         dispatch({
           type: types.GET_DOCUMENT_SUCCESS,
-          document: res.data
+          document: res.data,
         });
       })
       .catch(error => throwError(error, dispatch));
@@ -135,11 +140,34 @@ export function getUserDocuments(id) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
-    return axios.get(`${types.URL}/users/${id}/documents`)
+    return axios
+      .get(`${types.URL}/users/${id}/documents`)
       .then((res) => {
         dispatch({
           type: types.GET_USER_DOCUMENTS_SUCCESS,
-          documents: res.data
+          documents: res.data,
+        });
+      })
+      .catch(error => throwError(error, dispatch));
+  };
+}
+
+/**
+ * retrieve category documents
+ *
+ * @param {String} id category id
+ * @returns {Object} dispatch object
+ */
+export function getCategoryDocuments(id) {
+  return (dispatch) => {
+    dispatch(beginAjaxCall());
+
+    return axios
+      .get(`${types.URL}/documents?cat=${id}`)
+      .then((res) => {
+        dispatch({
+          type: types.GET_CATEGORY_DOCUMENTS_SUCCESS,
+          documents: res.data,
         });
       })
       .catch(error => throwError(error, dispatch));

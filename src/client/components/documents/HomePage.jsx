@@ -1,7 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getDocuments, deleteDocument, searchDocument, getUserDocuments }
-  from '../../actions/documentActions';
+import {
+  getDocuments,
+  deleteDocument,
+  searchDocument,
+  getUserDocuments,
+} from '../../actions/documentActions';
 import HomePageDiv from './HomePageDiv';
 import { handleError } from '../../utilities/errorHandler';
 
@@ -19,7 +23,7 @@ class HomePage extends React.Component {
       search: '',
       toBeDeleted: {},
       isMyDocuments: false,
-      paginate: Object.assign({}, props.pagination)
+      paginate: Object.assign({}, props.pagination),
     };
 
     this.prevPage = this.prevPage.bind(this);
@@ -49,8 +53,10 @@ class HomePage extends React.Component {
   * @returns {Function} function to set state
   */
   componentWillMount() {
-    return (this.props.location.pathname === '/mydocuments') ?
-    this.setState({ isMyDocuments: true }) : this.setState({ isMyDocuments: false });
+    const path = this.props.location.pathname;
+    return path === '/mydocuments' || path === '/category-display'
+      ? this.setState({ isMyDocuments: true })
+      : this.setState({ isMyDocuments: false });
   }
 
   /**
@@ -105,11 +111,11 @@ class HomePage extends React.Component {
   * @returns {Undefined} nothing
   */
   deleteDocument(id) {
-    this.props.deleteDocument(id)
-      .then(() => {
-        this.props.getDocuments(this.state.paginate.offset)
-          .then(() => Materialize.toast('Document deleted', 2000));
-      });
+    this.props.deleteDocument(id).then(() => {
+      this.props
+        .getDocuments(this.state.paginate.offset)
+        .then(() => Materialize.toast('Document deleted', 2000));
+    });
   }
 
   /**
@@ -130,7 +136,8 @@ class HomePage extends React.Component {
   */
   onSearch(event) {
     event.preventDefault();
-    this.props.searchDocument(this.state.search)
+    this.props
+      .searchDocument(this.state.search)
       .then(() => Materialize.toast('Search successful', 2000))
       .catch(error => handleError(error));
   }
@@ -146,18 +153,19 @@ class HomePage extends React.Component {
 
     return (
       <HomePageDiv
-      search={search}
-      onSearch={this.onSearch}
-      onChange={this.onChange}
-      access={access}
-      toBeDeleted={toBeDeleted}
-      documents={documents}
-      confirmDelete={this.confirmDelete}
-      deleteDocument={this.deleteDocument}
-      nextPage={this.nextPage}
-      prevPage={this.prevPage}
-      paginate={paginate}
-      isMyDocuments={isMyDocuments} />
+        search={search}
+        onSearch={this.onSearch}
+        onChange={this.onChange}
+        access={access}
+        toBeDeleted={toBeDeleted}
+        documents={documents}
+        confirmDelete={this.confirmDelete}
+        deleteDocument={this.deleteDocument}
+        nextPage={this.nextPage}
+        prevPage={this.prevPage}
+        paginate={paginate}
+        isMyDocuments={isMyDocuments}
+      />
     );
   }
 }
@@ -173,11 +181,14 @@ HomePage.propTypes = {
 };
 
 HomePage.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({
-  documents: state.documents,
-  access: state.access,
-  pagination: state.pagination
-}), { getDocuments, deleteDocument, searchDocument, getUserDocuments })(HomePage);
+export default connect(
+  state => ({
+    documents: state.documents,
+    access: state.access,
+    pagination: state.pagination,
+  }),
+  { getDocuments, deleteDocument, searchDocument, getUserDocuments },
+)(HomePage);
