@@ -8,6 +8,7 @@ import DocumentPage from './components/documents/DocumentPage';
 import ManageDocument from './components/documents/ManageDocument';
 import ProfilePage from './components/users/ProfilePage';
 import ManageRoles from './components/roles/ManageRoles';
+import ManageCategories from './components/categories/ManageCategories';
 import ManageUsers from './components/users/ManageUsers';
 import EnsureUserIsAdmin from './components/access/EnsureUserIsAdmin';
 import EnsureLoggedIn from './components/access/EnsureLoggedIn';
@@ -31,6 +32,7 @@ export default (
     <Route component={EnsureUserIsAdmin}>
       <Route path="user" component={ManageUsers} />
       <Route path="role" component={ManageRoles} />
+      <Route path="categories" component={ManageCategories} />
     </Route>
 
     <Route path="document" component={ManageDocument} />

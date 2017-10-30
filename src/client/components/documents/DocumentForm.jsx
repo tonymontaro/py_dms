@@ -65,6 +65,7 @@ const DocumentForm = ({ accessOptions, getContent, onChange, document, onSubmit,
 
 DocumentForm.propTypes = {
   accessOptions: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
   document: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

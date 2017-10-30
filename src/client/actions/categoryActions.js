@@ -62,12 +62,12 @@ export function saveCategory(category) {
 * @param {String} id category id
 * @returns {Object} dispatch object
 */
-export function deletecategory(id) {
+export function deleteCategory(id) {
   return (dispatch) => {
     dispatch(beginAjaxCall());
 
     return axios
-      .delete(`${types.URL}categories/${id}`)
+      .delete(`${types.URL}/categories/${id}`)
       .then(() => {
         dispatch({
           type: types.DELETE_CATEGORY_SUCCESS,

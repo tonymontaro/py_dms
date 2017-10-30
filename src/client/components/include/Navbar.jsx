@@ -105,7 +105,13 @@ const Navbar = ({
         </li>
       </ul>
 
-      <ul id="category-dropdown" className="dropdown-content">
+      <ul id="category-dropdown" className={`dropdown-content ${accessClass}`}>
+        <span className="forAdmin">
+          <li>
+            <Link to="categories">Manage categories</Link>
+          </li>
+        </span>
+        <li className="divider"/>
         <li>
           {categories.map(category => (
             <Link key={category.id} to="" onClick={() => getCategoryDocuments(category.id)}>
@@ -113,7 +119,6 @@ const Navbar = ({
             </Link>
           ))}
         </li>
-        <li className="divider" />
       </ul>
     </div>
   </header>
