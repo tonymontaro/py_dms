@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import TinyMCE from 'react-tinymce';
+import FroalaEditor from 'react-froala-wysiwyg';
 import SelectInput from '../common/SelectInput';
 import TextInput from '../common/TextInput';
 
@@ -13,6 +13,7 @@ const DocumentForm = ({ accessOptions, getContent, onChange, document, onSubmit,
   <div className="form-div new-document">
     <div className="container">
       <h3 className="center">New Document</h3>
+
       <form onSubmit={onSubmit}>
         <TextInput
           name="title"
@@ -42,15 +43,7 @@ const DocumentForm = ({ accessOptions, getContent, onChange, document, onSubmit,
           options={accessOptions}
           icon="user-plus"
         />
-
-        <TinyMCE
-          content={document.content}
-          config={{
-            plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-          }}
-          onChange={getContent}
-        />
+        <FroalaEditor tag="textarea" model={document.content} onModelChange={getContent} />
         {document.errors.content && (
           <div className="card-panel error white-text">{document.errors.content}</div>
         )}

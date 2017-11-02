@@ -53,13 +53,13 @@ class ManageDocument extends React.Component {
   }
 
   /**
-  * Get the content of the TinyMCE editor
+  * Get the content of the Froala editor
   *
-  * @param {Object} event
+  * @param {String} text
   * @returns {Undefined} nothing
   */
-  getContent(event) {
-    this.setState({ content: event.target.getContent() });
+  getContent(text) {
+    this.setState({ content: text });
   }
 
   /**
@@ -103,7 +103,12 @@ ManageDocument.contextTypes = {
  * @returns {Object} document object
  */
 function mapStateTopProps(state, ownProps) {
-  let currentDocument = { title: '', content: '', access: 'null', category: 'null' };
+  let currentDocument = {
+    title: '',
+    content: '',
+    access: 'null',
+    category: 'null',
+  };
   const documentId = ownProps.params.id;
   if (documentId) {
     state.documents.forEach((document) => {
@@ -127,6 +132,7 @@ function mapStateTopProps(state, ownProps) {
 
 ManageDocument.propTypes = {
   document: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
   saveDocument: PropTypes.func.isRequired,
 };
 

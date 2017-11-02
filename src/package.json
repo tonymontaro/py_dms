@@ -6,19 +6,25 @@
   "scripts": {
     "start": "babel-node server.js",
     "build:client": "webpack --config webpack.config.prod.js",
-    "test:client":
-      "NODE_ENV=test nyc mocha client/test/testSetup.js client/test/**/*",
-    "test:client:watch":
-      "mocha client/test/testSetup.js client/test/**/*.js --watch",
+    "test:client": "NODE_ENV=test nyc mocha client/test/testSetup.js client/test/**/*",
+    "test:client:watch": "mocha client/test/testSetup.js client/test/**/*.js --watch",
     "e2e-setup": "selenium-standalone install",
     "e2e-test": "nightwatch"
   },
   "nyc": {
-    "require": ["babel-register"],
-    "reporter": ["lcov", "text", "html"],
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ],
     "sourceMap": false,
     "instrument": false,
-    "exclude": ["client/test"]
+    "exclude": [
+      "client/test"
+    ]
   },
   "repository": {
     "type": "git",
@@ -43,11 +49,11 @@
     "jsonwebtoken": "^7.4.0",
     "react": "15.0.2",
     "react-dom": "15.0.2",
+    "react-froala-wysiwyg": "^2.7.1",
     "react-redux": "4.4.5",
     "react-render-html": "^0.1.6",
     "react-router": "3.0.2",
     "react-router-redux": "4.0.4",
-    "react-tinymce": "^0.5.1",
     "redux": "3.5.2",
     "redux-thunk": "2.0.1",
     "validator": "^7.0.0",
