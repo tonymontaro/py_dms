@@ -179,3 +179,7 @@ main {
 #category-dropdown {
   min-width: 200px;
 }
+
+.fr-wrapper-h > div:first-child {
+  display: none !important;
+}

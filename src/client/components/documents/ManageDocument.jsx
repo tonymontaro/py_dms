@@ -62,6 +62,12 @@ class ManageDocument extends React.Component {
     this.setState({ content: text });
   }
 
+  componentDidMount() {
+    if ($('.fr-wrapper > div').length > 1) {
+      $('.fr-wrapper').addClass('fr-wrapper-h');
+    }
+  }
+
   /**
   * Render the component
   *
