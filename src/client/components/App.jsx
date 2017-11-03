@@ -11,13 +11,18 @@ import Spinner from './common/Spinner';
  * @extends {React.Component}
  */
 class App extends React.Component {
+  componentDidMount() {
+    $('body').on('click', '#toggleCodeIframe', () => {
+      $('.code-iframe').slideToggle();
+    });
+  }
   render() {
     return (
       <div>
         <Header />
         <main>
-          {(this.props.loading > 0) && <Spinner />}
-          { this.props.children }
+          {this.props.loading > 0 && <Spinner />}
+          {this.props.children}
         </main>
         <Footer />
       </div>
@@ -31,5 +36,5 @@ App.propTypes = {
 };
 
 export default connect(state => ({
-  loading: state.ajaxCallsInProgress
+  loading: state.ajaxCallsInProgress,
 }))(App);

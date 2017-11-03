@@ -43,7 +43,12 @@ const DocumentForm = ({ accessOptions, getContent, onChange, document, onSubmit,
           options={accessOptions}
           icon="user-plus"
         />
-        <FroalaEditor tag="textarea" model={document.content} onModelChange={getContent} />
+        <FroalaEditor
+          tag="textarea"
+          model={document.content}
+          onModelChange={getContent}
+          config={{ placeholderText: '' }}
+        />
         {document.errors.content && (
           <div className="card-panel error white-text">{document.errors.content}</div>
         )}
@@ -51,6 +56,10 @@ const DocumentForm = ({ accessOptions, getContent, onChange, document, onSubmit,
         <div className="input-field center">
           <button className="waves-effect btn">Save</button>
         </div>
+        <a id="toggleCodeIframe" className="btn-floating btn-large waves-effect waves-light teal">
+          <i className="material-icons">code</i>
+        </a>
+        <iframe className="code-iframe" src="https://tohtml.com" width="100%" height="700px" />
       </form>
     </div>
   </div>
