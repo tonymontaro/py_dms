@@ -7,7 +7,8 @@ from .helpers import paginate, get_query_vars
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin, IsDocumentOwner
+from .permissions import IsProfileOwnerOrAdmin, IsAppAdmin, IsDocumentOwner, \
+    PrivateDocumentCheck
 from rest_framework_jwt.settings import api_settings
 from django.db.models import Q
 from django.shortcuts import render
@@ -154,6 +155,8 @@ class DocumentDetail(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ['PUT', 'DELETE']:
             self.permission_classes = [permissions.IsAuthenticated,
                                        IsDocumentOwner]
+        elif self.request.method == 'GET':
+            self.permission_classes = [PrivateDocumentCheck]
         return super(self.__class__, self).get_permissions()
 
     # enable partial update

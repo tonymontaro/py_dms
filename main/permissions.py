@@ -22,3 +22,11 @@ class IsDocumentOwner(permissions.BasePermission):
     """Allow only the document owner"""
     def has_object_permission(self, request, view, obj):
         return request.user.id == obj.author.id
+
+
+class PrivateDocumentCheck(permissions.BasePermission):
+    """Allow only the document owner for private documents"""
+
+    def has_object_permission(self, request, view, obj):
+        return False if obj.access == 'private' \
+                        and request.user.id != obj.author.id else True
