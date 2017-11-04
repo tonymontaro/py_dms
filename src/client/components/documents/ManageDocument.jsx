@@ -53,19 +53,13 @@ class ManageDocument extends React.Component {
   }
 
   /**
-  * Get the content of the Froala editor
+  * Get the content
   *
-  * @param {String} text
+  * @param {String} event
   * @returns {Undefined} nothing
   */
-  getContent(text) {
-    this.setState({ content: text });
-  }
-
-  componentDidMount() {
-    if ($('.fr-wrapper > div').length > 1) {
-      $('.fr-wrapper').addClass('fr-wrapper-h');
-    }
+  getContent(event) {
+    this.setState({ content: event.target.getContent() });
   }
 
   /**
