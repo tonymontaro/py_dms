@@ -49,6 +49,10 @@ main {
       .view-document {
         display: block;
         height: 250px;
+
+        .card-title {
+          font-size: 20px;
+        }
       }
       hr {
         margin-bottom: 15px;

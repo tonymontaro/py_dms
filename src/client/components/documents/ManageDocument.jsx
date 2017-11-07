@@ -106,7 +106,7 @@ function mapStateTopProps(state, ownProps) {
   let currentDocument = {
     title: '',
     content: '',
-    access: 'null',
+    access: 'public',
     category: 'null',
   };
   const documentId = ownProps.params.id;
